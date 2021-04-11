@@ -4,5 +4,5 @@
 
 void exit_screen()
 {
-    printf("ok");
+
 }

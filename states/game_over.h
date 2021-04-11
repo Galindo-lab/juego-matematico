@@ -17,5 +17,5 @@ void game_over()
     Global.hits = 0;
     Global.fails = 0;
 
-    Global.state = MAIN_MENU;|
+    Global.state = MAIN_MENU;
 }
