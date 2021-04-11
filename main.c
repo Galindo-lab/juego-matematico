@@ -9,15 +9,14 @@
 
 #include "states/main_menu.h"
 #include "states/game_loop.h"
+#include "states/game_over.h"
 
 int main() {
     void (*state[]) () = {
          main_menu,             /* estados del juego */
          game_loop,             /* cada uno esta en su */
-                                /* archivo correspondiente */
+         game_over              /* archivo correspondiente */
     };
-
-    //Global.state = GAME_LOOP;
 
     while(1)
     {

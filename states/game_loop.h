@@ -6,7 +6,7 @@
 #include "../globals.h"
 #include "../tools.h"
 
-#define ACCEPTABLE_ERROR 0.5
+#define ACCEPTABLE_ERROR 3
 #define ADD 0
 #define SUB 1
 #define DIV 2
@@ -31,7 +31,8 @@ void game_loop()
                                  * ans, respuesta */
 
     int op,                     /* operacion */
-        multip;                 /* multiplicador de puntos */
+        multip,                 /* multiplicador de puntos */
+        nq = 1;                 /* numero de pregunta */
 
     do{
         a = (float)(rand()%(10*Global.difficulty+1)); /* genera 2 numeros
@@ -54,15 +55,18 @@ void game_loop()
         res = round2(game_op[op](a,b)); /* resultado de la operacion y lo
                                          * redondea a 2 decimales */
 
-        printf("%.2f %c %.2f\n\n", a, game_operations[op], b); /* mostrar la
+        printf("\n\nPregunta numero %d\n", nq);
+        printf("%.2f %c %.2f\n", a, game_operations[op], b); /* mostrar la
                                                                 * ecuacion */
         printf("Cual es el resultado?: ");
         scanf("%f",&ans);
 
-        if ( prc_error(ans,res) <= ACCEPTABLE_ERROR ) /* determina el error entre
-                                                       * lo ingresado, si el
-                                                       * error es menos de 0.5
-                                                       * decimas, entonces
+        printf("%.2f\n",prc_error(ans,res));
+
+        if ( prc_error(ans,res) <= ACCEPTABLE_ERROR ) /* determina el error
+                                                       * entre lo ingresado, si
+                                                       * el error es menos de
+                                                       * 0.5 decimas, entonces
                                                        * cuenta como el mismo
                                                        * numero*/
         {
@@ -75,19 +79,22 @@ void game_loop()
             }
 
             Global.score += 1000 * multip; /* añade 1000 al score del jugador */
+            Global.hits++;
 
             printf("Correcto!!!\n");
             printf("La puntuacion actual es de: %d\n", Global.score);
         }
         else
         {
-            break;
+            Global.score -= 100;
+            printf("Fallo!!\n");
+            Global.fails++;
         }
 
-    }while(1);
+        nq++;                   /* incrementar el numero de pregunta */
 
-    printf("peasants\n");
-    getchar();
-    Global.state = MAIN_MENU;
+    }while( nq <= Global.nquestions );
+
+    Global.state = GAME_OVER;
 }
 

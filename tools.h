@@ -1,4 +1,6 @@
 
+#include<math.h>
+
 #ifndef TOOLS_H
 #define TOOLS_H
 
@@ -19,7 +21,7 @@ float round2(float var)         /* redondear a 2 decimales */
 float prc_error(float e, float t)
 {
     /* e valor experimental, t es el valor teorico */
-    return (abs(e - t) / abs(t)) * 100;
+    return (fabs(e - t) / fabs(t)) * 100;
 }
 
 #endif

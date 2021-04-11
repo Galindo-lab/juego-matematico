@@ -8,6 +8,8 @@
 
 void main_menu()
 {
+    printf("numero de preguntas:");
+    scanf("%i",&Global.nquestions);
     printf("Dificultad (1-3):");
     scanf("%i",&Global.difficulty);
     getchar();
