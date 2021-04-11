@@ -8,9 +8,14 @@
 
 void game_over()
 {
-
     printf("Resultado:\n");
     printf(" Acertaste el: %d/%d \n", Global.hits,Global.nquestions);
     printf(" Fallaste el: %d/%d \n", Global.fails,Global.nquestions);
-    Global.state = MAIN_MENU;
+
+    Global.score = 0;
+    Global.nquestions = 0;
+    Global.hits = 0;
+    Global.fails = 0;
+
+    Global.state = MAIN_MENU;|
 }

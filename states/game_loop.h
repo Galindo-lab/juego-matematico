@@ -7,10 +7,10 @@
 #include "../tools.h"
 
 #define ACCEPTABLE_ERROR 3
-#define ADD 0
-#define SUB 1
-#define DIV 2
-#define MUL 3
+#define ADD              0
+#define SUB              1
+#define DIV              2
+#define MUL              3
 
 float game_op_add(float a, float b){return a + b;}
 float game_op_sub(float a, float b){return a - b;}
@@ -94,7 +94,6 @@ void game_loop()
         nq++;                   /* incrementar el numero de pregunta */
 
     }while( nq <= Global.nquestions );
-
     Global.state = GAME_OVER;
 }
 
