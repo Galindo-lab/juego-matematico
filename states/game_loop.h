@@ -27,18 +27,30 @@ float (*game_op[]) (float, float) = {
 
 void game_loop()
 {
-    float a,b,res,ans;          /* a y b, variables
+    float
+        a,b,res,ans;          /* a y b, variables
                                  * res, resultado
                                  * ans, respuesta */
-
-    int op,                     /* operacion */
+    int
+        op,                     /* operacion */
         multip,                 /* multiplicador de puntos */
-        nq = 1;                 /* numero de pregunta */
+        nq = 1,                 /* numero de pregunta */
+        ptos;                   /* puntos */
+
+    clock_t
+        begin,                  /* tiempo inicio */
+        end;                    /* tiempo final */
+
+    long int
+        time_spent;             /* diferencia entre los dos
+                                 * tiempos */
+
 
     do{
-        a = (float)(rand()%(10*Global.difficulty+1)); /* genera 2 numeros
-                                                       * aletoreos */
-        b = (float)(rand()%(10*Global.difficulty+1));
+
+
+        a = (float)(rand()%(10*Global.difficulty+1)); /* genera 2 numeros */
+        b = (float)(rand()%(10*Global.difficulty+1)); /* aletoreos */
 
         /* selecciona la operacion,
          * sí la dificultad es 0 solo aparecen sumas y restas
@@ -58,11 +70,13 @@ void game_loop()
 
         printf("\n\nPregunta numero %d\n", nq);
         printf("%.2f %c %.2f\n", a, game_operations[op], b); /* mostrar la
-                                                                * ecuacion */
+                                                              * ecuacion */
+
+        begin = clock();        /* Tiempo inicial */
         printf("Cual es el resultado?: ");
         scanf("%f",&ans);
-
-        printf("%.2f\n",prc_error(ans,res));
+        end = clock();          /* tiempo final */
+        time_spent = (long int) ((end - begin)*1E5) / CLOCKS_PER_SEC;
 
         if ( prc_error(ans,res) <= ACCEPTABLE_ERROR ) /* determina el error
                                                        * entre lo ingresado, si
@@ -79,7 +93,19 @@ void game_loop()
                 default:  multip =  1;
             }
 
-            Global.score += 1000 * multip; /* añade 1000 al score del jugador */
+            /* Si el jugador se tarda de 2 a 3 segundos, se restará 50 pts por cada segundo.
+             * Si el jugador se tarda de 4 a 8 segundos, se restará 100pts por cada segundo.
+             * Si el jugador tarda más de 8 segundos y contesta correctamente, no se sumarán
+             * puntos. */
+
+            ptos = 1000;
+
+            printf("tomo %ld secs\n",time_spent);
+            ptos -= 50 * (( time_spent > 2 && time_spent < 4) ? time_spent : 0);
+            ptos -= 100 * (( time_spent > 4 && time_spent < 8) ? time_spent : 0);
+            ptos = ( time_spent > 8) ? 0 : 0 ;
+
+            Global.score += ptos * multip; /* añade 1000 al score del jugador */
             Global.hits++;
 
             printf("Correcto!!!\n");
