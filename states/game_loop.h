@@ -7,6 +7,10 @@
 #include "../tools.h"
 
 #define ACCEPTABLE_ERROR 0.5
+#define ADD 0
+#define SUB 1
+#define DIV 2
+#define MUL 3
 
 float game_op_add(float a, float b){return a + b;}
 float game_op_sub(float a, float b){return a - b;}
@@ -20,9 +24,14 @@ float (*game_op[]) (float, float) = {
      game_op_mul, game_op_div,
 };
 
-void game_loop(){
-    float a,b,res,ans;
-    int op;
+void game_loop()
+{
+    float a,b,res,ans;          /* a y b, variables
+                                 * res, resultado
+                                 * ans, respuesta */
+
+    int op,                     /* operacion */
+        multip;                 /* multiplicador de puntos */
 
     do{
         a = (float)(rand()%(10*Global.difficulty+1)); /* genera 2 numeros
@@ -50,14 +59,25 @@ void game_loop(){
         printf("Cual es el resultado?: ");
         scanf("%f",&ans);
 
-        if ( (ans - res) <= ACCEPTABLE_ERROR ) /* determina el error entre
-                                                * lo ingresado, si el error es
-                                                * menos de 0.5 decimas,
-                                                * entonces cuenta como el mismo
-                                                * numero */
+        if ( prc_error(ans,res) <= ACCEPTABLE_ERROR ) /* determina el error entre
+                                                       * lo ingresado, si el
+                                                       * error es menos de 0.5
+                                                       * decimas, entonces
+                                                       * cuenta como el mismo
+                                                       * numero*/
         {
+            switch(op)          /* multiplica los puntos si la operancion es
+                                 * multiplicaion o divicion */
+            {
+                case DIV: multip = 10; break;
+                case MUL: multip =  5; break;
+                default:  multip =  1;
+            }
+
+            Global.score += 1000 * multip; /* añade 1000 al score del jugador */
+
             printf("Correcto!!!\n");
-            Global.score += 1000; /* añade 1000 al score del jugador */
+            printf("La puntuacion actual es de: %d\n", Global.score);
         }
         else
         {
@@ -65,7 +85,6 @@ void game_loop(){
         }
 
     }while(1);
-
 
     printf("peasants\n");
     getchar();
