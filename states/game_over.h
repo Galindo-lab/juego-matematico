@@ -8,7 +8,7 @@
 
 void game_over()
 {
-    printf("Resultado:\n");
+    printf("Resultado: %d pts.\n",Global.score);
     printf(" Acertaste el: %d/%d \n", Global.hits,Global.nquestions);
     printf(" Fallaste el: %d/%d \n", Global.fails,Global.nquestions);
 
