@@ -101,9 +101,9 @@ void game_loop()
             ptos = 1000;
 
             printf("tomo %ld secs\n",time_spent);
-            ptos -= 50 * (( time_spent > 2 && time_spent < 4) ? time_spent : 0);
-            ptos -= 100 * (( time_spent > 4 && time_spent < 8) ? time_spent : 0);
-            ptos = ( time_spent > 8) ? 0 : ptos ;
+            ptos -= 50 * (( time_spent > 12 && time_spent < 14) ? time_spent : 0);
+            ptos -= 100 * (( time_spent > 14 && time_spent < 18) ? time_spent : 0);
+            ptos = ( time_spent > 18) ? 0 : ptos ;
 
             Global.score += ptos * multip; /* añade 1000 al score del jugador */
             Global.hits++;
